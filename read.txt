@@ -1,0 +1,113 @@
+FixCrypto Documentation
+
+# Encrypt with custom keys
+encrypted = fixcrypto.encrypt("Hello", key1=1234, key2=5678)
+# Returns: "1082 1107 1122 1112 1113"
+
+# Decrypt with keys
+decrypted = fixcrypto.decrypt("1082 1107 1122 1112 1113", key1=1234, key2=5678)
+# Returns: "Hello"
+
+# Quick encryption (auto-generated keys)
+result = fixcrypto.quick_encrypt("Secret message")
+# Returns dictionary with: ciphertext, key1, key2, timestamp
+Key Management
+python
+# Generate random keys
+key1, key2 = fixcrypto.generate_keys()
+# Returns: (12345678, 87654321)
+
+# Create keys from password
+keychain = fixcrypto.create_keychain("my_password")
+# Returns dictionary with: key1, key2, salt, verify_hash
+
+# Save keys to file
+fixcrypto.save_keys("mykeys.json", key1=1234, key2=5678, metadata={"note": "Project keys"})
+
+# Load keys from file
+keys = fixcrypto.load_keys("mykeys.json")
+# Returns dictionary with saved keys
+File Operations
+python
+# Encrypt file
+result = fixcrypto.encrypt_file("document.txt", "document.enc", key1=1234, key2=5678)
+
+# Decrypt file
+result = fixcrypto.decrypt_file("document.enc", "decrypted.txt", key1=1234, key2=5678)
+
+# Securely delete file
+fixcrypto.secure_delete("sensitive.txt", passes=7)
+
+# Generate QR code from encrypted text
+fixcrypto.generate_qr("1082 1107 1122", "qr_code.png", size=10)
+Utilities
+python
+# Detect content type
+content_type = fixcrypto.detect_content_type("some text or data")
+# Returns: {'type': 'text', 'confidence': 0.95}
+
+# Compress data
+compressed, info = fixcrypto.compress_data("text to compress")
+
+# Add metadata to data
+encoded = fixcrypto.add_metadata("data", {"author": "me", "date": "2024"})
+
+# Recover corrupted data
+recovered, info = fixcrypto.recover_data("corrupt�d data", method='aggressive')
+
+# Validate keys
+validation = fixcrypto.validate_keys(1234, 5678)
+# Returns: {'valid': True, 'issues': []}
+Error Handling
+python
+from fixcrypto import CryptoError, KeyError, FileError
+
+try:
+    encrypted = fixcrypto.encrypt(text, key1, key2)
+except KeyError as e:
+    print(f"Key error: {e}")
+except CryptoError as e:
+    print(f"Encryption error: {e}")
+Command Line Tool
+Your crypto.py provides a menu-driven interface:
+
+text
+=== AUTO ENCRYPTION ===
+1. encrypt (auto keys)     # Encrypt text with auto-generated keys
+2. transcript (with keys)  # Decrypt with provided keys
+3. exit                    # Exit program
+Basic Usage Example
+python
+import fixcrypto
+
+# 1. Encrypt a message
+result = fixcrypto.quick_encrypt("Confidential data")
+print(f"Encrypted: {result['ciphertext']}")
+print(f"Keys: {result['key1']}, {result['key2']}")
+
+# 2. Save keys for later
+fixcrypto.save_keys("keys.json", result['key1'], result['key2'])
+
+# 3. Decrypt later
+loaded_keys = fixcrypto.load_keys("keys.json")
+decrypted = fixcrypto.decrypt(
+    result['ciphertext'], 
+    loaded_keys['key1'], 
+    loaded_keys['key2']
+)
+print(f"Decrypted: {decrypted}")
+Requirements
+Python 3.7 or higher
+
+Pillow (for QR code generation)
+
+qrcode (for QR code creation)
+
+Notes
+Minimum key length: 4 digits (recommended: 8+ digits)
+
+Supports Unicode and binary data
+
+Always backup your encryption keys separately
+
+Lost keys cannot be recovered
