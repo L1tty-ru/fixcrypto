@@ -1,10 +1,10 @@
-# 🔐 FixCrypto
+#  FixCrypto
 
 **Secure Double XOR Cipher encryption for Python**
 
 FixCrypto is a modern encryption library that implements the **Double XOR Cipher** algorithm for text and file protection. Designed for developers who need simple yet effective encryption.
 
-## ✨ Features
+##  Features
 
 - **Double XOR Cipher** - Two-layer XOR encryption with modular arithmetic
 - **File encryption** - Encrypt any file type (text, images, documents)
@@ -18,4 +18,5 @@ FixCrypto is a modern encryption library that implements the **Double XOR Cipher
 
 ### Installation
 ```bash
+
 pip install fixcrypto
